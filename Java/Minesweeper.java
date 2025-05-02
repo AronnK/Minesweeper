@@ -46,29 +46,86 @@ public class Minesweeper extends JFrame {
     private void createHomeScreen() {
         homePanel = new JPanel();
         homePanel.setLayout(new GridBagLayout());
+        homePanel.setBackground(new Color(240, 240, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
+
+        // Add game logo/title
+        JLabel titleLabel = new JLabel("MINESWEEPER");
+        titleLabel.setFont(new Font("Arial Black", Font.BOLD, 32));
+        titleLabel.setForeground(new Color(44, 62, 80));
         gbc.gridx = 0;
         gbc.gridy = 0;
-        JLabel titleLabel = new JLabel("Select Difficulty");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        gbc.gridwidth = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         homePanel.add(titleLabel, gbc);
 
-        gbc.gridy++;
-        JButton easyButton = new JButton("Easy");
-        homePanel.add(easyButton, gbc);
+        // Style difficulty buttons
+        JButton[] difficultyButtons = {
+                new JButton("Easy") {
+                    {
+                        setBackground(new Color(46, 204, 113));
+                        setForeground(Color.WHITE);
+                        setFont(new Font("Arial", Font.BOLD, 20));
+                        setFocusPainted(false);
+                        setBorderPainted(false);
+                        setPreferredSize(new Dimension(200, 50));
+                        addActionListener(e -> startGame("Easy"));
+                        addMouseListener(new MouseAdapter() {
+                            public void mouseEntered(MouseEvent e) {
+                                setBackground(new Color(82, 220, 140));
+                            }
+                            public void mouseExited(MouseEvent e) {
+                                setBackground(new Color(46, 204, 113));
+                            }
+                        });
+                    }
+                },
+                new JButton("Medium") {
+                    {
+                        setBackground(new Color(52, 152, 219));
+                        setForeground(Color.WHITE);
+                        setFont(new Font("Arial", Font.BOLD, 20));
+                        setFocusPainted(false);
+                        setBorderPainted(false);
+                        setPreferredSize(new Dimension(200, 50));
+                        addActionListener(e -> startGame("Medium"));
+                        addMouseListener(new MouseAdapter() {
+                            public void mouseEntered(MouseEvent e) {
+                                setBackground(new Color(82, 172, 229));
+                            }
+                            public void mouseExited(MouseEvent e) {
+                                setBackground(new Color(52, 152, 219));
+                            }
+                        });
+                    }
+                },
+                new JButton("Good Luck Winning") {
+                    {
+                        setBackground(new Color(231, 76, 60));
+                        setForeground(Color.WHITE);
+                        setFont(new Font("Arial", Font.BOLD, 20));
+                        setFocusPainted(false);
+                        setBorderPainted(false);
+                        setPreferredSize(new Dimension(200, 50));
+                        addActionListener(e -> startGame("Hard"));
+                        addMouseListener(new MouseAdapter() {
+                            public void mouseEntered(MouseEvent e) {
+                                setBackground(new Color(241, 96, 80));
+                            }
+                            public void mouseExited(MouseEvent e) {
+                                setBackground(new Color(231, 76, 60));
+                            }
+                        });
+                    }
+                }
+        };
 
-        gbc.gridy++;
-        JButton mediumButton = new JButton("Medium");
-        homePanel.add(mediumButton, gbc);
-
-        gbc.gridy++;
-        JButton hardButton = new JButton("Good Luck Winning");
-        homePanel.add(hardButton, gbc);
-
-        easyButton.addActionListener(e -> startGame("Easy"));
-        mediumButton.addActionListener(e -> startGame("Medium"));
-        hardButton.addActionListener(e -> startGame("Hard"));
+        for (int i = 0; i < difficultyButtons.length; i++) {
+            gbc.gridy = i + 1;
+            gbc.insets = new Insets(10, 0, 10, 0);  // Reduced horizontal padding
+            homePanel.add(difficultyButtons[i], gbc);
+        }
 
         mainPanel.add(homePanel, "Home");
     }
